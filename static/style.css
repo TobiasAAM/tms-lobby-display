@@ -16,8 +16,17 @@ main {
 	position: relative;
 }
 
-p,ul {
+p,ul,dl {
 	color: #d8d8d8;
+}
+
+dd {
+	background:none no-repeat left top;
+}
+
+dt {
+	font-weight: bold;
+	margin-top: 1em;
 }
 
 h1,h2 {
@@ -39,6 +48,10 @@ h2 {
 section {
     margin: 2em auto;
     width: 60%;
+}
+
+.icon {
+	vertical-align:middle;
 }
 
 footer {

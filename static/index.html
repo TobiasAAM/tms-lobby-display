@@ -1,55 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>TMS Lobby display</title>
-	<link rel="stylesheet" href="/static/style.css" media="screen">
-	<script type="text/javascript" src="/static/jquery-1.10.2.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			// When the testform is submitted…
-			$("#testform").submit(function() {
-				// post the form values via AJAX…
-				var postdata = {
-					name : $("#name").val()
-				};
-				$.post('/submit', postdata, function(data) {
-					// and set the title with the result
-					$("#title").html(data['title']);
-				});
-				return false;
+<meta charset="utf-8">
+<title>TMS Lobby display</title>
+<link rel="stylesheet" href="/static/style.css" media="screen">
+<script type="text/javascript" src="/static/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="/static/jquery.tmpl.js"></script>
+
+<script id="movieTemplate" type="x-jquery-tmpl">
+	<dt>
+		{{if audio_language}}
+			<img src="/static/flags/${audio_language}.png" alt="${audio_language}" class="icon">
+		{{/if}}
+		${title}
+		{{if is_3D}}
+			<img src="/static/icons/3D.png" alt="3D" class="icon"">
+		{{/if}}
+	</dt>
+		<dd>${start_time}: (length: ${duration_h}:${duration_m}h)</dd> 
+
+		{{if subtitle_Language}}
+			<dd>Subtitles: <img src="/static/flags/${subtitle_Language}.png" alt="${subtitle_Language}" class="icon"></dd>
+		{{/if}}
+		{{if rating}}
+			<dd>Rating: ${rating}</dd>
+		{{/if}}
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		getMovies()
+	});
+
+	$(function() {
+		// When the testform is submitted…
+		$("#testform").submit(function() {
+			// post the form values via AJAX…
+			var postdata = {
+				name : $("#name").val()
+			};
+			$.post('/submit', postdata, function(data) {
+				// and set the title with the result
+				$("#title").html(data['title']);
 			});
+			return false;
 		});
-	</script>
+	});
+
+	function getMovies() {
+		$.post('/getmovies', function(movies) {
+			/* Get the movies array from the data */
+			/* Remove current set of movie template items */
+			$("#movieList").empty();
+
+			/* Render the template items for each movie
+			and insert the template items into the "movieList" */
+			$("#movieTemplate").tmpl(movies).appendTo("#movieList");
+		});
+	}
+</script>
 </head>
 <body>
 	<header role="banner">
-		
-		
+
+
 		<!-- ARIA: the landmark role "navigation" is added here as the element contains site navigation
 		NOTE: The <nav> element does not have to be contained within a <header> element, even though the two examples on this page are. -->
 		<nav role="navigation">
-			<!-- This can contain your site navigation either in an unordered list or even a paragraph that contains links that allow users to navigate your site -->			
+			<!-- This can contain your site navigation either in an unordered list or even a paragraph that contains links that allow users to navigate your site -->
 		</nav>
 	</header>
 	<div class="wrap">
 		<main role="main">
-			<h1><abbr title="Theatre Management System">TMS</abbr> Lobby Display</h1>
-			<h2 id="title">AJAX Demo</h2>
-			<section>
-				<form id="testform" action="#" method="post">
-					<p>
-						<label for="name">Name:</label> <input type="text" id="name" />
-						<input type="submit" value="Set" class="button" />
-					</p>
-				</form>
-			</section>
-		</main>		
+		<h1>
+			<abbr title="Theatre Management System">TMS</abbr> Lobby Display
+		</h1>
+		<h2 id="title">AJAX Demo</h2>
+		<section>
+			<form id="testform" action="#" method="post">
+				<p>
+					<label for="name">Name:</label> <input type="text" id="name" /> <input
+						type="submit" value="Set" class="button" />
+				</p>
+			</form>
+		</section>
+		<section>
+			<dl id="movieList">
+
+			</dl>
+		</section>
+		</main>
 	</div>
-	
+
 	<footer role="contentinfo">
 		<small>Copyright &copy; <time datetime="2013">2013</time></small>
 	</footer>
-	
+
 </body>
 </html>

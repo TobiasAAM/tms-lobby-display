@@ -22,6 +22,12 @@ class AjaxApp(object):
         cherrypy.response.headers['Content-Type'] = 'application/json'
         return json.dumps(dict(title="Hello, %s" % name))
 
+    @cherrypy.expose
+    def getmovies(self):
+        cherrypy.response.headers['Content-Type'] = 'application/json'
+        json = tms_connector.read_tms()
+        return json
+
 config = {'/static':
                 {'tools.staticdir.on': True,
                  'tools.staticdir.dir': MEDIA_DIR,
@@ -33,4 +39,3 @@ def open_page():
 cherrypy.engine.subscribe('start', open_page)
 cherrypy.tree.mount(AjaxApp(), '/', config=config)
 cherrypy.engine.start()
-tms_connector.read_tms()
