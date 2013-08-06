@@ -62,15 +62,14 @@ def read_tms():
         raise IOError(u'The settings.json file does not exist') 
     
     tms_connection = TMSConnector(config[u'coreAPI'], config[u'username'], config[u'password'])
-    now = datetime.datetime.now() - datetime.timedelta(days=7)
-    endofday = datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(days=14)
+    now = datetime.datetime.now()
+    endofday = datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(days=2)
+    
     timeline = []
 
     schedule = tms_connection.get_scheduling(now.strftime(u'%Y-%m-%d %H:%M:%S'), endofday.strftime(u'%Y-%m-%d %H:%M:%S'))
-        
     for schedule_item in schedule.itervalues():
         timeline_entry={}
-        print schedule_item
         start_time = schedule_item[u'start_time']
         start_date = schedule_item[u'start_date']
         duration = schedule_item[u'duration']
@@ -116,7 +115,7 @@ def read_tms():
                             
                         timeline.append(timeline_entry)
         
-        return json.dumps(timeline, indent=4)
+    return json.dumps(timeline, indent=4)
                             
 if __name__ == u'__main__':
     print read_tms()
