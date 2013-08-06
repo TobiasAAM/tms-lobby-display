@@ -22,18 +22,20 @@ class AjaxApp(object):
         cherrypy.response.headers['Content-Type'] = 'application/json'
         return json.dumps(dict(title="Hello, %s" % name))
 
+    #this actually runs read_tms() and responds it to browser
     @cherrypy.expose
     def getmovies(self):
         cherrypy.response.headers['Content-Type'] = 'application/json'
-        json = tms_connector.read_tms()
-        return json
+        return tms_connector.read_tms()
 
+# this content is directly delivered to browser
 config = {'/static':
-                {'tools.staticdir.on': True,
-                 'tools.staticdir.dir': MEDIA_DIR,
-                }
+        {'tools.staticdir.on': True,
+         'tools.staticdir.dir': MEDIA_DIR,
         }
+}
 
+#helper for development: open web browser after starting application
 def open_page():
     webbrowser.open("http://127.0.0.1:8080/")
 cherrypy.engine.subscribe('start', open_page)

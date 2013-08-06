@@ -17,7 +17,7 @@
 			<img src="/static/icons/3D.png" alt="3D" class="icon"">
 		{{/if}}
 	</dt>
-		<dd>${start_time}: (length: ${duration_h}:${duration_m}h)</dd> 
+		<dd>${start_time} (${duration_h}:${duration_m}h)</dd> 
 
 		{{if subtitle_Language}}
 			<dd>Subtitles: <img src="/static/flags/${subtitle_Language}.png" alt="${subtitle_Language}" class="icon"></dd>
@@ -33,9 +33,9 @@
 	});
 
 	$(function() {
-		// When the testform is submitted…
+		// When the testform is submitted
 		$("#testform").submit(function() {
-			// post the form values via AJAX…
+			// post the form values via AJAX
 			var postdata = {
 				name : $("#name").val()
 			};
@@ -62,10 +62,6 @@
 </head>
 <body>
 	<header role="banner">
-
-
-		<!-- ARIA: the landmark role "navigation" is added here as the element contains site navigation
-		NOTE: The <nav> element does not have to be contained within a <header> element, even though the two examples on this page are. -->
 		<nav role="navigation">
 			<!-- This can contain your site navigation either in an unordered list or even a paragraph that contains links that allow users to navigate your site -->
 		</nav>
@@ -85,15 +81,13 @@
 			</form>
 		</section>
 		<section>
-			<dl id="movieList">
-
-			</dl>
+			<dl id="movieList"><!-- Content gets filled here --></dl>
 		</section>
 		</main>
 	</div>
 
 	<footer role="contentinfo">
-		<small>Copyright &copy; <time datetime="2013">2013</time></small>
+		<small>Copyright &copy; <time datetime="2013">2013</time> Arts Alliance Media</small>
 	</footer>
 
 </body>
