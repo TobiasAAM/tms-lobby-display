@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="/static/style.css" media="screen">
 <script type="text/javascript" src="/static/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/static/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/static/tms-wrapper.js"></script>
+<script type="text/javascript" src="/static/helper.js"></script>
 
 <script id="movieTemplate" type="x-jquery-tmpl">
 	<dt>
@@ -30,41 +32,6 @@
 		{{/if}}
 </script>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		getMovies()
-	});
-
-	$(function() {
-		// When the testform is submitted
-		$("#testform").submit(function() {
-			// post the form values via AJAX
-			var postdata = {
-				name : $("#name").val()
-			};
-			$.post('/submit', postdata, function(data) {
-				// and set the title with the result
-				$("#title").html(data['title']);
-			});
-			return false;
-		});
-	});
-
-	function getMovies() {
-		$("#loadingAnimation").show("slow");
-		$.post('/getmovies', function(movies) {
-			/* Get the movies array from the data */
-			/* Remove current set of movie template items */
-			$("#movieList").empty();
-			$("#loadingAnimation").fadeOut("slow", function() {
-				/* Render the template items for each movie
-				and insert the template items into the "movieList" */
-				$("#movieTemplate").tmpl(movies).appendTo("#movieList")
-				$("#movieList").fadeIn("slow");
-			});
-		});
-	}
-</script>
 </head>
 <body>
 	<header role="banner">
