@@ -17,6 +17,22 @@ class TMSConnector:
         self.password = password
         self.headers = {u'content-type': u'application/json'}
 
+    def get_screen_name(self, device_id):
+        '''
+        Returns the screen name which a device belongs to
+        
+        :param device_id: UUID of the device
+        '''
+        complex_url = self.coreAPI + u'configuration/screen'
+
+        complex_payload = {u'username':self.user, u'password':self.password}
+        complex_response = requests.post(complex_url, data=json.dumps(complex_payload), headers=self.headers)
+        complex_info = complex_response.json()
+        for screen in complex_info[u'data'].itervalues():
+            for device in screen[u'devices']:
+                if device == device_id:
+                    return screen[u'title']
+        return None
 
     def get_device_info(self, device_id):
         '''
@@ -26,7 +42,7 @@ class TMSConnector:
         '''
         info_url = self.coreAPI + u'monitoring/info'
 
-        info_payload = {u'username':self.user, u'password':self.password, u'device_ids':[device_id]}    
+        info_payload = {u'username':self.user, u'password':self.password, u'device_ids':[device_id]}
         info_response = requests.post(info_url, data=json.dumps(info_payload), headers=self.headers)
         device_info = info_response.json()
         return device_info[u'data'][device_id]
@@ -159,12 +175,17 @@ def read_tms():
                         if(playlist_is3d):
                             timeline_entry.update({u'is_3D': True})
                         if(ct[u'subtitled'] and u'subtitle_language' in ct):
-                            timeline_entry.update({u'subtitle_Language':ct[u'subtitle_language']})
+                            timeline_entry.update({u'subtitle_language':ct[u'subtitle_language']})
                         if(ct[u'rating'] != None):
                             timeline_entry.update({u'rating':ct[u'rating']})
 
-                        #only if all necessary information could be obtained add to timeline
-                        timeline.append(timeline_entry)
+                        screen_name = tms_connection.get_screen_name(device_uuid)
+                        if(screen_name != None):
+                            timeline_entry.update({u'screen_name':screen_name})
+
+                        if(timeline_entry not in timeline):
+                            #only if all necessary information could be obtained add to timeline
+                            timeline.append(timeline_entry)
 
     #sort timeline according the start_time of the schedule and dump it into json
     return json.dumps(sorted(timeline, key=lambda movie: movie['start_time']))
