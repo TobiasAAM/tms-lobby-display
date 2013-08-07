@@ -1,11 +1,13 @@
 html {
 	background: #d8d8d8;
+	height: 100%;
 }
 
 body {
 	margin: 0 auto;
 	background: #303030;
 	font-family: 'Anaheim', sans-serif;
+	height: 100%;
 }
 
 body > h1, main > h1, body > header > h1 {
@@ -54,7 +56,12 @@ section {
 	vertical-align:middle;
 }
 
+main {
+	padding-bottom: 100px;
+}
+
 footer {
+	position: absolute;
 	left: 0px;
 	bottom: 0px;
 	height: 100px;
@@ -68,6 +75,15 @@ footer {
 footer p {
 	color: #303030;
 	font-size: .8em;
+}
+
+#movieList {
+	display: none;
+}
+
+#loadingAnimation {
+	vertical-align: middle; 
+	text-align: center;
 }
 
 .button {

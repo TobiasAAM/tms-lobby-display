@@ -12,7 +12,7 @@
 		{{if audio_language}}
 			<img src="/static/flags/${audio_language}.png" alt="${audio_language}" class="icon">
 		{{/if}}
-		${title}
+		<b>${title}</b>
 		{{if is_3D}}
 			<img src="/static/icons/3D.png" alt="3D" class="icon"">
 		{{/if}}
@@ -20,10 +20,13 @@
 		<dd>${start_time} (${duration_h}:${duration_m}h)</dd> 
 
 		{{if subtitle_Language}}
-			<dd>Subtitles: <img src="/static/flags/${subtitle_Language}.png" alt="${subtitle_Language}" class="icon"></dd>
+			<dd>Subtitles: <img src="/static/flags/${subtitle_language}.png" alt="${subtitle_language}" class="icon"></dd>
 		{{/if}}
 		{{if rating}}
 			<dd>Rating: ${rating}</dd>
+		{{/if}}
+		{{if screen_name}}
+			<dd>Cinema ${screen_name}</dd>
 		{{/if}}
 </script>
 
@@ -48,14 +51,17 @@
 	});
 
 	function getMovies() {
+		$("#loadingAnimation").show("slow");
 		$.post('/getmovies', function(movies) {
 			/* Get the movies array from the data */
 			/* Remove current set of movie template items */
 			$("#movieList").empty();
-
-			/* Render the template items for each movie
-			and insert the template items into the "movieList" */
-			$("#movieTemplate").tmpl(movies).appendTo("#movieList");
+			$("#loadingAnimation").hide("slow", function() {
+				/* Render the template items for each movie
+				and insert the template items into the "movieList" */
+				$("#movieTemplate").tmpl(movies).appendTo("#movieList")
+				$("#movieList").show("slow");
+			});
 		});
 	}
 </script>
@@ -71,7 +77,8 @@
 		<h1>
 			<abbr title="Theatre Management System">TMS</abbr> Lobby Display
 		</h1>
-		<h2 id="title">AJAX Demo</h2>
+		<h2 id="title">Upcoming movies</h2>
+		<!--
 		<section>
 			<form id="testform" action="#" method="post">
 				<p>
@@ -79,8 +86,10 @@
 						type="submit" value="Set" class="button" />
 				</p>
 			</form>
-		</section>
+		</section> 
+		-->
 		<section>
+			<div id="loadingAnimation"><img src="/static/icons/ajax-loader.gif" alt="Loading animation" class="icon"></div>
 			<dl id="movieList"><!-- Content gets filled here --></dl>
 		</section>
 		</main>
