@@ -10,20 +10,8 @@ body {
 	height: 100%;
 }
 
-body > h1, main > h1, body > header > h1 {
-    padding-top: 8%;
-}
-
-main {
-	position: relative;
-}
-
 p,ul,dl {
 	color: #d8d8d8;
-}
-
-dd {
-	background:none no-repeat left top;
 }
 
 dt {
@@ -57,14 +45,14 @@ section {
 }
 
 main {
-	padding-bottom: 100px;
+	padding-bottom: 50px; /* matches footer height */
 }
 
 footer {
 	position: absolute;
 	left: 0px;
 	bottom: 0px;
-	height: 100px;
+	height: 50px;
 	width: 100%;
 	color: #303030;
 	text-align: center;
@@ -77,10 +65,13 @@ footer p {
 	font-size: .8em;
 }
 
+/* use full available height */
 #movieList {
 	display: none;
+	height: 100%;
 }
 
+/* show loading icon centered */
 #loadingAnimation {
 	vertical-align: middle; 
 	text-align: center;
