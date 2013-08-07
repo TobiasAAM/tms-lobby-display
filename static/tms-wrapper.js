@@ -12,3 +12,14 @@ function getMovies() {
 		});
 	});
 }
+
+function get_scheduling(start, end) {
+	$.get(
+		"http://localhost:9000/core/" + "scheduling/schedule",
+		function(data) {
+			alert(arguments);
+			alert("test");
+			alert(data);
+		}
+	);
+}

@@ -118,7 +118,7 @@ def read_tms():
     
     #times to get schedule for
     now = datetime.datetime.now()
-    endofday = datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(days=1)
+    endofday = datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(days=2)
 
     schedule = tms_connection.get_scheduling(now.strftime(u'%Y-%m-%d %H:%M:%S'), endofday.strftime(u'%Y-%m-%d %H:%M:%S'))
     
@@ -143,7 +143,9 @@ def read_tms():
         duration_m_str = "%02d" % duration_m
         duration_h_str = "%d" % duration_h
 
-        timeline_entry.update({u'start_date':start_date, u'start_time':start_time})
+        start_time_format = datetime.datetime.strptime(start_time, u'%H:%M:%S')
+
+        timeline_entry.update({u'start_date':start_date, u'start_time':start_time_format.strftime(u'%I:%M %p').lstrip(u'0')})
         timeline_entry.update({u'duration_h': duration_h_str, u'duration_m': duration_m_str})
 
         #skip if there is no valid playlist / device id

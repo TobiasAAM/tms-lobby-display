@@ -1,5 +1,8 @@
 $(document).ready(function() {
-	getMovies()
+	$('#scheduling').click(function() {
+        get_scheduling("2013-08-06 10:00:00", "2013-08-19 10:00:00");
+    });
+	getMovies();
 });
 
 $(function() {
