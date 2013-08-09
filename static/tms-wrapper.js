@@ -47,7 +47,10 @@ function process_scheduling(schedule) {
 	$.each(schedule, function() {
 		var tms_lobby = new TmsLobby();
 		
-		tms_lobby.start_time = this["start_time"].slice(0, 5);
+		var tempDate = new Date();
+		tempDate.setHours(this["start_time"].slice(0, 2), this["start_time"].slice(3, 5));
+		
+		tms_lobby.start_time = tempDate.format("hh:MM TT");
 		tms_lobby.start_date = this["start_date"];
 		duration = this["duration"];
 		duration_m = Math.floor(parseInt(duration,10)/60);
@@ -153,11 +156,12 @@ function process_title(tms_lobby) {
 	var isInMovies = false;
 	for(i=0;i<movies.length;i++) {
 		if(movies[i].duration_h == movie.duration_h &&
-			movies[i].duration_m == movie.duration_m &&
-			movies[i].start_date == movie.start_date &&
-			movies[i].start_time == movie.start_time &&
-			movies[i].title == movie.title) {
-				isInMovies = true;
+		movies[i].duration_m == movie.duration_m &&
+		movies[i].start_date == movie.start_date &&
+		movies[i].start_time == movie.start_time &&
+		movies[i].title == movie.title) {
+			isInMovies = true;
+			break;
 		}
 	}
 	if(!isInMovies) {

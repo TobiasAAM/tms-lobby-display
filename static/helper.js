@@ -20,6 +20,22 @@ $(function() {
 	});
 });
 
+function convert12to24(timeStr)
+{
+    var meridian = timeStr.substr(timeStr.length-2).toLowerCase();
+    var hours    = timeStr.substring(0, timeStr.indexOf(':'));
+    var minutes  = timeStr.substring(timeStr.indexOf(':')+1, timeStr.indexOf(' '));
+    if (meridian=='pm')
+    {
+        hours = (hours=='12') ? '00' : parseInt(hours)+12 ;
+    }
+    else if(hours.length<2)
+    {
+        hours = '0' + hours;
+    }
+    return hours+':'+minutes;
+}
+
 function compareDate(a, b) {
-	return a.start_time > b.start_time;
+	return convert12to24(a.start_time) > convert12to24(b.start_time);
 }
