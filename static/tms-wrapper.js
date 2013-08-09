@@ -15,13 +15,15 @@ function getMovies() {
 
 username = "admin";
 password = "admin";
-core_api="http://172.17.140.33:8080/core/";
+//core_api="http://172.17.140.33:8080/core/";
+core_api="http://10.58.4.8:9000/core/";
 
 var movies=[];
 
 var TmsLobby = function() {};
 
 $(document).bind("ajaxStop", function(){
+	movies.sort(compareDate);
 	$("#movieList").empty();
 	$("#loadingAnimation").fadeOut("slow", function() {
 		/* Render the template items for each movie
@@ -45,12 +47,12 @@ function process_scheduling(schedule) {
 	$.each(schedule, function() {
 		var tms_lobby = new TmsLobby();
 		
-		tms_lobby.start_time = this["start_time"];
+		tms_lobby.start_time = this["start_time"].slice(0, 5);
 		tms_lobby.start_date = this["start_date"];
 		duration = this["duration"];
 		duration_m = Math.floor(parseInt(duration,10)/60);
-		tms_lobby.duration_h = Math.floor(duration_m/60);
-		tms_lobby.duration_m = duration_m%60;
+		tms_lobby.duration_h = Math.floor(duration_m/60)
+		tms_lobby.duration_m = ('0' + duration_m%60).slice(-2);
 		
 		tms_lobby.device_id = this["device_information"]["device_uuid"];
 		tms_lobby.playlist_id = this["device_information"]["device_playlist_uuid"];
@@ -147,7 +149,20 @@ function process_title(tms_lobby) {
 		movie.subtitles = tms_lobby.subtitles;
 	}
 	movie.title = tms_lobby.title;
-	movies.push(movie);
+	// no duplicates
+	var isInMovies = false;
+	for(i=0;i<movies.length;i++) {
+		if(movies[i].duration_h == movie.duration_h &&
+			movies[i].duration_m == movie.duration_m &&
+			movies[i].start_date == movie.start_date &&
+			movies[i].start_time == movie.start_time &&
+			movies[i].title == movie.title) {
+				isInMovies = true;
+		}
+	}
+	if(!isInMovies) {
+		movies.push(movie);
+	}
 }
 
 /*function get_screen_name(device_id) {
@@ -189,7 +204,7 @@ function read_tms() {
 	$("#loadingAnimation").show("slow");
 	var now = new Date();
 	var tonight = new Date();
-	tonight.setDate(now.getDate()+12);
+	tonight.setDate(now.getDate()+1);
 	tonight.setHours(3);
 	get_scheduling(now.format("yyyy-mm-dd HH:mm:ss"), tonight.format("yyyy-mm-dd HH:mm:ss"));
 }
