@@ -2,8 +2,10 @@ import requests
 import json
 import os
 import datetime
+import warnings
 
 class TMSConnector:
+    warnings.warn('This class is deprecated, please use the JavaScript functions',DeprecationWarning )
     '''
     A connector which provides an API wrapper for the TMS API.
     

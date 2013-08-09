@@ -8,7 +8,6 @@ import cherrypy
 import webbrowser
 import os
 import json
-import tms_connector
 
 MEDIA_DIR = os.path.join(os.path.abspath("."), u"static")
 
@@ -41,7 +40,7 @@ cherrypy.config.update({'server.socket_host': '0.0.0.0',
 
 #helper for development: open web browser after starting application
 def open_page():
-    webbrowser.open("http://127.0.0.1:8000/")
+    webbrowser.open("http://172.17.140.33:8000/")
 cherrypy.engine.subscribe('start', open_page)
 cherrypy.tree.mount(AjaxApp(), '/', config=config)
 cherrypy.engine.start()
