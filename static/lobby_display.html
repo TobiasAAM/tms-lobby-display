@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <title>TMS Lobby display</title>
-<link rel="stylesheet" href="/static/style.css" media="screen">
+<link rel="stylesheet" href="/static/lobby_display.css" media="screen">
 <script type="text/javascript" src="/static/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/static/jquery.tmpl.js"></script>
 <script type="text/javascript" src="/static/date.format.js"></script>
-<script type="text/javascript" src="/static/tms-wrapper.js"></script>
-<script type="text/javascript" src="/static/helper.js"></script>
+<script type="text/javascript" src="/static/lobby_display.js"></script>
 
 <script id="movieTemplate" type="x-jquery-tmpl">
 	<dt>
@@ -46,19 +45,6 @@
 			<abbr title="Theatre Management System">TMS</abbr> Lobby Display
 		</h1>
 		<h2 id="title">Upcoming movies</h2>
-		<!--
-		<section>
-			<form id="testform" action="#" method="post">
-				<p>
-					<label for="name">Name:</label> <input type="text" id="name" /> <input
-						type="submit" value="Set" class="button" />
-				</p>
-			</form>
-		</section> 
-		-->
-		<section>
-			<button type="button" class="button" id="scheduling">Call Scheduling</button>
-		</section>
 		<section>
 			<div id="loadingAnimation"><img src="/static/icons/ajax-loader.gif" alt="Loading animation" class="icon"></div>
 			<dl id="movieList"><!-- Content gets filled here --></dl>

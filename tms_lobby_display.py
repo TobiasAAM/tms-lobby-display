@@ -14,7 +14,7 @@ MEDIA_DIR = os.path.join(os.path.abspath("."), u"static")
 class AjaxApp(object):
     @cherrypy.expose
     def index(self):
-        return open(os.path.join(MEDIA_DIR, u'index.html'))
+        return open(os.path.join(MEDIA_DIR, u'lobby_display.html'))
 
     @cherrypy.expose
     def submit(self, name):

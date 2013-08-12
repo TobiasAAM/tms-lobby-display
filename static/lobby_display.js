@@ -1,3 +1,9 @@
+$(document).ready(function() {
+	$("#loadingAnimation").show("slow");
+	read_tms();
+	setInterval(read_tms, 30000);
+});
+
 function getMovies() {
 	$("#loadingAnimation").show("slow");
 	$.post('/getmovies', function(movies) {
@@ -205,10 +211,35 @@ function process_device_info(device) {
 }*/
 
 function read_tms() {
-	$("#loadingAnimation").show("slow");
+	movies=[];
+	//$("#movieList").fadeOut("slow");
 	var now = new Date();
 	var tonight = new Date();
 	tonight.setDate(now.getDate()+1);
 	tonight.setHours(3);
 	get_scheduling(now.format("yyyy-mm-dd HH:mm:ss"), tonight.format("yyyy-mm-dd HH:mm:ss"));
+}
+
+function convert12to24(timeStr)
+{
+    var meridian = timeStr.substr(timeStr.length-2).toLowerCase();
+    var hours    = timeStr.substring(0, timeStr.indexOf(':'));
+    var minutes  = timeStr.substring(timeStr.indexOf(':')+1, timeStr.indexOf(' '));
+    if (meridian=='pm')
+    {
+        hours = (hours=='12') ? '00' : parseInt(hours)+12 ;
+    }
+    else if(hours.length<2)
+    {
+        hours = '0' + hours;
+    }
+    return hours+':'+minutes;
+}
+
+function compareDate(a, b) {
+	if(a.start_date == b.start_date) {
+		return convert12to24(a.start_time) > convert12to24(b.start_time);
+	} else {
+		return a.start_date>b.start_date;
+	}
 }
